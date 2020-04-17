@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
- * @author 
+ * @author
  */
 
 public class LowTimeService implements TimeService {
-    
+
     private Date date;
     private Thread dateUpdater;
     private long requestCount;
@@ -25,7 +25,7 @@ public class LowTimeService implements TimeService {
         this.date = date;
         this.dateUpdaterStep = dateUpdaterStep;
         this.numberOfClients = numberOfClients;
-        
+
         stop = false;
         dateUpdater = new Thread(() -> {
             long currentTime;
@@ -43,7 +43,6 @@ public class LowTimeService implements TimeService {
             }
             stop = true;
         });
-        dateUpdater.start();
     }
 
     @Override
@@ -63,5 +62,11 @@ public class LowTimeService implements TimeService {
         return stop;
     }
 
-    
+	@Override
+	public void startDateUpdater() {
+		dateUpdater.start();
+
+	}
+
+
 }

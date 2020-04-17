@@ -17,7 +17,7 @@ public class HighTimeService implements TimeService {
     private final int updaterStep;
     private boolean stop;
     private long requestCount;
-    private final Runnable threadUpdater;
+    private final Runnable dateUpdater;
     private final ScheduledExecutorService executor;
     private final Lock lock;
     private final long numberOfClients;
@@ -27,11 +27,11 @@ public class HighTimeService implements TimeService {
         this.date = date;
         this.updaterStep = updaterStep;
         this.numberOfClients = numberOfClients;
-        
+
         stop = false;
         lock = new ReentrantLock();
         executor = Executors.newSingleThreadScheduledExecutor();
-        threadUpdater = new Thread(() -> {
+        dateUpdater = new Thread(() -> {
             if (!stop) {
                 long currentTime;
                 long newTime;
@@ -43,11 +43,8 @@ public class HighTimeService implements TimeService {
                 executor.shutdown();
             }
         });
-        
-        //set threadUpdater to run periodically
-        ScheduledFuture<?> future = executor.scheduleAtFixedRate(threadUpdater, updaterStep, updaterStep, TimeUnit.MILLISECONDS);
     }
-    
+
     @Override
     public Date getDate() {
         lock.lock();
@@ -72,5 +69,11 @@ public class HighTimeService implements TimeService {
     public boolean isStopped() {
         return stop;
     }
-    
+
+	@Override
+	public void startDateUpdater() {
+		//set threadUpdater to run periodically
+        ScheduledFuture<?> future = executor.scheduleAtFixedRate(dateUpdater, updaterStep, updaterStep, TimeUnit.MILLISECONDS);
+	}
+
 }
