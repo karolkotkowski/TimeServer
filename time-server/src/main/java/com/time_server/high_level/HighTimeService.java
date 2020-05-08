@@ -1,4 +1,6 @@
-package com.time_server;
+package com.time_server.high_level;
+
+import com.time_server.*;
 
 import java.util.Date;
 import java.util.concurrent.Executors;

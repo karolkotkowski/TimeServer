@@ -7,7 +7,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  *
  * @author
  */
-public class TimeServerDemo {
+public class Demo {
 
     /**
      * @param args the command line arguments
@@ -23,7 +23,7 @@ public class TimeServerDemo {
         TimeCalibrator timeCalibrator = context.getBean("timeCalibrator", TimeCalibrator.class);
         timeCalibrator.start();
 
-        TimeServiceClients clients = context.getBean("timeServiceClients", TimeServiceClients.class);
+        TimeServiceRequests clients = context.getBean("timeServiceRequests", TimeServiceRequests.class);
         clients.startClients();
 
 
